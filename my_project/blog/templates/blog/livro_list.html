@@ -1,0 +1,62 @@
+{% extends 'global/base.html' %}
+{% block title %}Lista de Livros{% endblock %}
+{% block content %}
+<style>
+    .page-header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 50px 0; margin: -20px -15px 40px -15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    .page-header h1 { font-size: 3rem; font-weight: 700; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    .btn-custom { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 25px; transition: all 0.3s ease; border: none; }
+    .btn-custom:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4); color: white; text-decoration: none; }
+    .table-container { background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 25px; }
+    .custom-table { width: 100%; margin: 0; }
+    .custom-table thead { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+    .custom-table thead th { padding: 18px 15px; font-weight: 600; border: none; text-align: left; }
+    .custom-table tbody td { padding: 15px; border-bottom: 1px solid #e9ecef; vertical-align: middle; }
+    .custom-table tbody tr { transition: all 0.3s ease; }
+    .custom-table tbody tr:hover { background: #f8f9fa; transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .custom-table tbody tr:last-child td { border-bottom: none; }
+    .btn-action { padding: 6px 15px; border-radius: 20px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: all 0.3s ease; display: inline-block; margin: 2px; }
+    .btn-edit { background: #ffc107; color: #000; }
+    .btn-edit:hover { background: #ffb300; transform: translateY(-1px); text-decoration: none; color: #000; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-delete:hover { background: #c82333; transform: translateY(-1px); text-decoration: none; color: white; }
+    .btn-back { background: #6c757d; color: white; }
+    .btn-back:hover { background: #5a6268; transform: translateY(-1px); text-decoration: none; color: white; }
+    .empty-state { text-align: center; padding: 60px 20px; color: #6c757d; }
+    .empty-state-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
+    .empty-state-text { font-size: 1.2rem; margin-bottom: 25px; }
+</style>
+<div class="page-header"><div class="container"><h1>📚 Livros</h1></div></div>
+<div class="container">
+    <a href="{% url 'blog:livro_create' %}" class="btn-custom">➕ Novo Livro</a>
+    {% if livros %}
+        <div class="table-container">
+            <table class="custom-table">
+                <thead><tr><th>ID</th><th>Título</th><th>ISBN</th><th>Editora</th><th>Preço</th><th>Estoque</th><th>Ações</th></tr></thead>
+                <tbody>
+                    {% for livro in livros %}
+                    <tr>
+                        <td>{{ livro.id }}</td>
+                        <td><strong>{{ livro.titulo }}</strong></td>
+                        <td>{{ livro.ISBN }}</td>
+                        <td>{{ livro.editora.nome }}</td>
+                        <td>R$ {{ livro.preco }}</td>
+                        <td>{{ livro.estoque }}</td>
+                        <td>
+                            <a href="{% url 'blog:livro_edit' livro.id %}" class="btn-action btn-edit">✏️ Editar</a>
+                            <a href="{% url 'blog:livro_delete' livro.id %}" class="btn-action btn-delete">🗑️ Deletar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📚</div>
+            <p class="empty-state-text">Nenhum livro cadastrado ainda.</p>
+            <a href="{% url 'blog:livro_create' %}" class="btn-custom">➕ Cadastrar Primeiro Livro</a>
+        </div>
+    {% endif %}
+    <a href="{% url 'blog:home' %}" class="btn-action btn-back" style="padding: 10px 25px;">⬅️ Voltar</a>
+</div>
+{% endblock %}

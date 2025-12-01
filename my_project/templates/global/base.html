@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu título{% endblock title %}</title>
+    <style>
+        /* Reset de margens e padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos gerais do body */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        header {
+            background-color: #2563eb;
+            padding: 10px 0;
+            color: white;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        header .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        header nav a:hover {
+            background-color: #1e40af;
+        }
+
+        header .user-info a {
+            color: #2563eb;
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 5px;
+            border-radius: 4px;
+            background-color: white;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        header .user-info a:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        header .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        header .user-info span {
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        header form button {
+            background-color: white;
+            border: 2px solid white;
+            /* color: white; */
+            color: #2563eb;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            
+        }
+
+        header form button:hover {
+            background-color: #2563eb;
+            /* color: #2563eb; */
+            color: white;
+            
+            /* border-color: #2563eb; */
+        }
+
+        footer {
+            background-color: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* Estilos para o conteúdo */
+        main {
+            padding: 20px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="{% url 'blog:home' %}">Home</a> 
+            </div>
+            <div class="user-info">
+                {% if request.user.is_authenticated %}
+                    
+                    <span>Olá, {{ request.user.username }}</span>
+                    <form method="post" action="{% url 'blog:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" >Sair</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'blog:signin' %}">Entrar</a> |
+                    <a href="{% url 'blog:signup' %}">Registrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Conteúdo específico da página -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <h3>FOOTER BEM FEITO</h3>
+    </footer>
+
+</body>
+</html>

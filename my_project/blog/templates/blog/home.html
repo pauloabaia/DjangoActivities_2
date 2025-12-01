@@ -1,0 +1,289 @@
+{% extends 'global/base.html' %}
+
+{% block title %}BookStore - Sistema de Gerenciamento{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #e74c3c;
+        --accent-color: #3498db;
+        --dark-bg: #1a252f;
+        --light-text: #ecf0f1;
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-bg) 100%);
+        color: var(--light-text);
+        padding: 80px 0;
+        margin: -20px -15px 40px -15px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .hero-section h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-section p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+        color: var(--primary-color);
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--secondary-color);
+        border-radius: 2px;
+    }
+    
+    .management-card {
+        background: white;
+        border-radius: 15px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        height: 100%;
+        border: 2px solid transparent;
+    }
+    
+    .management-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        border-color: var(--accent-color);
+    }
+    
+    .card-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 25px;
+        background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
+    
+    .management-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+    
+    .management-card p {
+        color: #7f8c8d;
+        margin-bottom: 25px;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .btn-action {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 5px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+    
+    .btn-primary-custom {
+        background: var(--accent-color);
+        color: white;
+        border: 2px solid var(--accent-color);
+    }
+    
+    .btn-primary-custom:hover {
+        background: transparent;
+        color: var(--accent-color);
+        transform: scale(1.05);
+    }
+    
+    .btn-secondary-custom {
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+    
+    .btn-secondary-custom:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: scale(1.05);
+    }
+    
+    .stats-section {
+        background: #f8f9fa;
+        padding: 50px 0;
+        margin: 60px -15px 40px -15px;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 30px;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+    
+    .footer-section {
+        text-align: center;
+        padding: 40px 0;
+        color: #7f8c8d;
+        margin-top: 60px;
+    }
+</style>
+
+<div class="hero-section">
+    <div class="container">
+        <h1>📚 BookStore Manager</h1>
+        <p>Sistema completo de gerenciamento para sua livraria. Organize autores, editoras, livros e publicações com facilidade.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section-title">
+        <h2>Painel de Gerenciamento</h2>
+        <p class="text-muted mt-3">Acesse as ferramentas de gestão da sua livraria</p>
+    </div>
+    
+    <div class="row g-4 mb-5">
+        <!-- Card Autores -->
+        <div class="col-md-6 col-lg-3">
+            <div class="management-card">
+                <div class="card-icon">
+                    ✍️
+                </div>
+                <h3>Autores</h3>
+                <p>Gerencie o cadastro de autores e escritores</p>
+                <div>
+                    <a href="{% url 'blog:list_autores' %}" class="btn-action btn-primary-custom">Ver Todos</a>
+                    <a href="{% url 'blog:autor_create' %}" class="btn-action btn-secondary-custom">Adicionar</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Editoras -->
+        <div class="col-md-6 col-lg-3">
+            <div class="management-card">
+                <div class="card-icon">
+                    🏢
+                </div>
+                <h3>Editoras</h3>
+                <p>Administre as casas editoriais parceiras</p>
+                <div>
+                    <a href="{% url 'blog:list_editoras' %}" class="btn-action btn-primary-custom">Ver Todas</a>
+                    <a href="{% url 'blog:editora_create' %}" class="btn-action btn-secondary-custom">Adicionar</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Livros -->
+        <div class="col-md-6 col-lg-3">
+            <div class="management-card">
+                <div class="card-icon">
+                    📖
+                </div>
+                <h3>Livros</h3>
+                <p>Controle seu catálogo de livros e estoque</p>
+                <div>
+                    <a href="{% url 'blog:list_livros' %}" class="btn-action btn-primary-custom">Ver Todos</a>
+                    <a href="{% url 'blog:livro_create' %}" class="btn-action btn-secondary-custom">Adicionar</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Publicações -->
+        <div class="col-md-6 col-lg-3">
+            <div class="management-card">
+                <div class="card-icon">
+                    📝
+                </div>
+                <h3>Publicações</h3>
+                <p>Relacione autores com suas obras publicadas</p>
+                <div>
+                    <a href="{% url 'blog:list_publicacoes' %}" class="btn-action btn-primary-custom">Ver Todas</a>
+                    <a href="{% url 'blog:publica_create' %}" class="btn-action btn-secondary-custom">Adicionar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_autores|default:"0" }}</div>
+                    <div class="stat-label">Autores Cadastrados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_editoras|default:"0" }}</div>
+                    <div class="stat-label">Editoras Parceiras</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_livros|default:"0" }}</div>
+                    <div class="stat-label">Livros no Catálogo</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_publicacoes|default:"0" }}</div>
+                    <div class="stat-label">Publicações Registradas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-section">
+    <div class="container">
+        <p>&copy; 2025 BookStore Manager. Sistema de Gerenciamento de Livraria.</p>
+    </div>
+</div>
+
+{% endblock %}
