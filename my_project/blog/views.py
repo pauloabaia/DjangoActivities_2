@@ -113,7 +113,17 @@ class HelloViews(View):
     
     def list_livros(request):
         from .models import Livro
-        livros = Livro.objects.all()
+        from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+        livros = Livro.objects.all().order_by('preco')
+        page = request.GET.get('page', 1)
+        paginator = Paginator(livros, 5)  # 5 livros por página
+        try:
+            livros = paginator.page(page)
+        except PageNotAnInteger:
+            livros = paginator.page(1)
+        except EmptyPage:
+            livros = paginator.page(paginator.num_pages)
         return render(request, 'blog/livro_list.html', {'livros': livros})
     
     @login_required

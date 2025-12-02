@@ -24,6 +24,11 @@
     .empty-state { text-align: center; padding: 60px 20px; color: #6c757d; }
     .empty-state-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
     .empty-state-text { font-size: 1.2rem; margin-bottom: 25px; }
+    .pagination { display: flex; justify-content: center; gap: 8px; margin: 30px 0; }
+    .pagination a, .pagination span { padding: 8px 12px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+    .pagination a { background: #d3d3d3; color: #333; }
+    .pagination a:hover { background: #bbb; }
+    .pagination .active { background: #11998e; color: white; }
 </style>
 <div class="page-header"><div class="container"><h1>📚 Livros</h1></div></div>
 <div class="container">
@@ -49,6 +54,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="pagination">
+            {% for page_num in livros.paginator.page_range %}
+                {% if page_num == livros.number %}
+                    <span class="active">{{ page_num }}</span>
+                {% else %}
+                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
     {% else %}
         <div class="empty-state">
