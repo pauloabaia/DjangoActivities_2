@@ -6,7 +6,7 @@ from datetime import date
 from .forms import AutorForm, EditoraForm, LivroForm, PublicaForm, SignUpForm, SignInForm
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from django.http import HttpResponseNotAllowed
@@ -101,6 +101,7 @@ class HelloViews(View):
         return render(request, 'blog/editora_form.html', {'form': form, 'editora': editora})
     
     @login_required
+    @permission_required('blog.add_livro')
     def livro_create(request):
         if request.method == 'POST':
             form = LivroForm(request.POST)
@@ -127,6 +128,7 @@ class HelloViews(View):
         return render(request, 'blog/livro_list.html', {'livros': livros})
     
     @login_required
+    @permission_required('blog.change_livro')
     def livro_edit(request, id):
         from .models import Livro
         livro = get_object_or_404(Livro, pk=id)
@@ -167,6 +169,7 @@ class HelloViews(View):
         return render(request, 'blog/publica_form.html', {'form': form, 'publica': publica})
 
     # Delete views (confirmation + POST to delete)
+    
     def autor_delete(request, id):
         from .models import Autor
         autor = get_object_or_404(Autor, pk=id)
@@ -183,6 +186,7 @@ class HelloViews(View):
             return redirect('blog:list_editoras')
         return render(request, 'blog/editora_confirm_delete.html', {'editora': editora})
 
+    @permission_required('blog.delete_livro')
     def livro_delete(request, id):
         from .models import Livro
         livro = get_object_or_404(Livro, pk=id)

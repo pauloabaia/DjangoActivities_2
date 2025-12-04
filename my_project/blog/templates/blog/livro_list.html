@@ -32,7 +32,9 @@
 </style>
 <div class="page-header"><div class="container"><h1>📚 Livros</h1></div></div>
 <div class="container">
-    <a href="{% url 'blog:livro_create' %}" class="btn-custom">➕ Novo Livro</a>
+    {% if perms.blog.add_livro %}
+        <a href="{% url 'blog:livro_create' %}" class="btn-custom">➕ Novo Livro</a>
+    {%endif%}
     {% if livros %}
         <div class="table-container">
             <table class="custom-table">
@@ -46,9 +48,19 @@
                         <td>{{ livro.editora.nome }}</td>
                         <td>R$ {{ livro.preco }}</td>
                         <td>{{ livro.estoque }}</td>
+                        
                         <td>
-                            <a href="{% url 'blog:livro_edit' livro.id %}" class="btn-action btn-edit">✏️ Editar</a>
-                            <a href="{% url 'blog:livro_delete' livro.id %}" class="btn-action btn-delete">🗑️ Deletar</a>
+                            {% if perms.blog.change_livro%}
+                                <a href="{% url 'blog:livro_edit' livro.id %}" class="btn-action btn-edit ">✏️ Editar</a>
+                            {%else%}
+                                <button disabled class="btn-action btn-edit ">✏️ Editar</button>
+                            {%endif%}
+                            {% if perms.blog.delete_livro%}
+                                <a href="{% url 'blog:livro_delete' livro.id %}" class="btn-action btn-delete">🗑️ Deletar</a>
+                            {%else%}
+                                <button disabled class="btn-action btn-delete">🗑️ Deletar</button>
+                            {%endif%}
+                            
                         </td>
                     </tr>
                     {% endfor %}
