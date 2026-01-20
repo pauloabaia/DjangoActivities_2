@@ -122,4 +122,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Redirect URLs for authentication aquiii
 LOGIN_URL = '/blog/signin/'
